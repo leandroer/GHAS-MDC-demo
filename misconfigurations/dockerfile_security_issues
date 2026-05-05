@@ -1,0 +1,25 @@
+# Dockerfile with Security Issues
+
+# VULNERABILITY: Using base image without version tag (latest)
+FROM ubuntu
+
+# VULNERABILITY: Running as root
+RUN useradd -m appuser
+WORKDIR /app
+
+# VULNERABILITY: Installing unnecessary packages
+RUN apt-get update && apt-get install -y \
+    curl \
+    wget \
+    telnet \
+    ssh \
+    && rm -rf /var/lib/apt/lists/*
+
+# VULNERABILITY: Copying files with elevated permissions
+COPY --chown=root:root . .
+
+# VULNERABILITY: Running service as root
+ENTRYPOINT ["python", "app.py"]
+
+# Exposed ports with services running
+EXPOSE 22 23 3306 5432

@@ -1,0 +1,30 @@
+# Unsafe YAML Configuration
+version: '3.8'
+
+services:
+  web:
+    image: nginx:latest  # VULNERABILITY: Using latest tag
+    ports:
+      - "0.0.0.0:80:80"  # VULNERABILITY: Exposed on all interfaces
+      - "0.0.0.0:443:443"
+    environment:
+      # VULNERABILITY: Secrets in plaintext
+      DB_PASSWORD: SuperSecretPassword123
+      API_KEY: sk_live_1234567890abcdef
+      AWS_SECRET: wJalrXUtnFEMI/K7MDENG
+    volumes:
+      - /:/data  # VULNERABILITY: Mounting root filesystem
+    privileged: true  # VULNERABILITY: Running with elevated privileges
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root123  # VULNERABILITY: Weak password
+      MYSQL_DATABASE: app
+    ports:
+      - "3306:3306"  # VULNERABILITY: Exposed database port
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
