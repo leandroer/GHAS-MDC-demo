@@ -32,5 +32,5 @@ def get_data():
     return {'data': get_sensitive_data(user_id)}
 
 if __name__ == '__main__':
-    # VULNERABILITY: Debug mode enabled in production-like config
-    app.run(debug=True, host='0.0.0.0')
+    # Disable debug in production and bind to localhost
+    app.run(debug=False, host='127.0.0.1')
