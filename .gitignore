@@ -1,0 +1,22 @@
+# Local environment overrides
+.env
+.env.*
+!.env.example
+
+# Real private keys and credentials must never be committed
+*.pem
+*.key
+*.pfx
+*.p12
+*.crt
+*.cer
+credentials/
+*.tfstate
+*.tfstate.*
+
+# Local tooling
+.DS_Store
+.vscode/
+.idea/
+__pycache__/
+*.pyc
